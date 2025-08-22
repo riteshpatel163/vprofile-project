@@ -74,7 +74,7 @@ pipeline {
             }
             post {
                 success {
-                    echo "Sonar Analysis completed successfully."
+                    echo "Sonar Analysis completed ssssuccessfully."
                     echo "now archiving"
                     archiveArtifacts artifacts: '**/*.war'
                 }
