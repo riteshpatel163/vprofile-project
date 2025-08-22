@@ -79,7 +79,7 @@ pipeline {
                     archiveArtifacts artifacts: '**/*.war'
                 }
                 failure {
-                    echo "Sonar Analysis failed."
+                    echo "Sonar Analysises failed."
                 }
             }
         }
