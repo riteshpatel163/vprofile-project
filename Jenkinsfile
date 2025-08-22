@@ -96,7 +96,7 @@ pipeline {
                     artifacts: [
                         [artifactId: 'vproapp',
                         classifier: '',
-                        file: 'target/vproapp-v2.war',
+                        file: 'target/vproapp.war',
                         type: 'war']
                     ]
                 )
