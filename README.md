@@ -1,5 +1,5 @@
 # Prerequisites
-+====modofird in sonar webhook again in github hookkkk also=========
++====nexus artifact modifed in jenkinsfile=========
 #hellawkjdhnkjdveddho
 - JDK 17 or 21
 - Maven 3.9
