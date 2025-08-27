@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprormq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vprormq
+  template:
+    metadata:
+      labels:
+        app: vprormq
+    spec:
+      containers:
+        - name: vprormq
+          image: rabbitmq
+          ports:
+            - name: vprormq-port
+              containerPort: 5672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: rmq-pass
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pv-claim
