@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: vprodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vprodb
+  template:
+    metadata:
+      labels:
+        app: vprodb
+    spec:
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm","-rf","/var/lib/mysql/lost+found"]
+          #command: ['sh', '-c', 'echo Initializing database...']
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/mysql
+      containers:
+        
+        - name: vprodb
+          image: wwwdockerpatel/vrodb:latest
+          ports:
+            - name: vprodb-port
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: db-pass
+            
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pv-claim
