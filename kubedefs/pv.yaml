@@ -9,5 +9,5 @@ spec:
     - ReadWriteOnce
   storageClassName: hostpath-sc
   hostPath:
-    path: /nfs/apps  # directory on the host
+    path: /opt/nfs-storage  # directory on the host
     type: DirectoryOrCreate
