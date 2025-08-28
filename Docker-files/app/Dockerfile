@@ -1,6 +1,6 @@
 FROM tomcat:10-jdk21
 LABEL "Project"="Vprofile"
-LABEL "Author"="Imran"
+LABEL "Author"="patel"
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
