@@ -23,7 +23,7 @@ spec:
       containers:
         
         - name: vprodb
-          image: wwwdockerpatel/vrodb:latest
+          image: wwwdockerpatel/mysqldb:8.0
           ports:
             - name: vprodb-port
               containerPort: 3306
