@@ -15,7 +15,7 @@ spec:
       initContainers:
         - name: busybox
           image: busybox:latest
-          args: ["rm","-rf","/var/lib/mysql/lost+found"]
+          args: ["rm","-rf","/var/lib/mysql/*"]
           #command: ['sh', '-c', 'echo Initializing database...']
           volumeMounts:
             - name: db-storage
