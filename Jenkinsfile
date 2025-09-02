@@ -12,7 +12,7 @@ pipeline {
         NEXUS_PASS = 'redhat'
         RELEASE_REPO = 'patel-repo-release'
         CENTRAL_REPO = 'patel-maven-central'
-        NEXUSIP = '192.168.181.128'
+        NEXUSIP = '192.168.181.129'
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'patel-maven-group'
         NEXUS_LOGIN = 'nexus'
