@@ -86,7 +86,7 @@ pipeline {
         stage('deploy to tomcat server'){
             steps {
                 sh 'sudo cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/'
-                sh 'sudo chown -R tomcat:tomcat /opt/tomcat9/webapps/vprofile-v2.war'
+                sh 'sudo chown -R tomcat:tomcat /opt/tomcat9/webapps/'
                 sh '/opt/tomcat9/bin/shutdown.sh'
                 sh '/opt/tomcat9/bin/startup.sh'
 
