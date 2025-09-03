@@ -83,6 +83,12 @@ pipeline {
                 }
             }
         }
+        stage('deploy to tomcat server'){
+            steps {
+                sh 'cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/'
+                
+            }
+        }
         stage('nexus artifact upload') {
             steps {
                 nexusArtifactUploader(
