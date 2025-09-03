@@ -4,7 +4,9 @@ pipeline {
         maven "maven3"
         jdk "jdk21"
     }
-    
+    parameters {
+        string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Deployment environment')
+    }
     environment {
         
         SNAP_REPO = 'vprofile-snapshot'
@@ -18,6 +20,7 @@ pipeline {
         NEXUS_LOGIN = 'nexus'
         SONARSERVER='sonarserver'
         SONARSCANNER='sonarscanner'
+        
     }
 
     stages {
@@ -84,11 +87,22 @@ pipeline {
             }
         }
         stage('deploy to tomcat server'){
+            
             steps {
-                sh 'rm -rf /opt/tomcat9/webapps/vprofile-v2.war'
-                sh ' cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/'
-                
+                script {
+                    if (params.ENVIRONMENT == 'dev') {
+                       
+                        echo "Deploying to dev environment."
+                        sh ''' rm -rf /opt/tomcat9/webapps/vprofile-v2.war
+                            cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/
+                            chown -R tomcat:tomcat-deploy /opt/tomcat9/webapps/
+                        '''
 
+                }else {
+                    echo "Deployment skipped. Not in dev environment."
+                }
+            
+                }
             }
         }
         stage('nexus artifact upload') {
