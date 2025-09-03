@@ -89,12 +89,10 @@ pipeline {
         stage('deploy to tomcat server'){
             
             steps {
-                input {
-                    message "Approve deployment to ${params.ENVIRONMENT}?"
-                    ok "Deploy"
-                    cancel "Abort"
+                
                 }
                 script {
+                    input message: 'Proceed with deployment?', ok: 'Deploy', aborted: 'Abort'
                     if (params.ENVIRONMENT == 'dev') {
                        
                         echo "Deploying to dev environment."
