@@ -89,10 +89,8 @@ pipeline {
         stage('deploy to tomcat server'){
             
             steps {
-                
-                }
                 script {
-                    input message: 'Proceed with deployment?', ok: 'Deploy', aborted: 'Abort'
+                    input message: 'Proceed with deployment?', ok: 'Deploy', cancel: 'Abort'
                     if (params.ENVIRONMENT == 'dev') {
                        
                         echo "Deploying to dev environment."
@@ -130,3 +128,4 @@ pipeline {
         }
     }
 
+}
