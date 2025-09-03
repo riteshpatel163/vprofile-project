@@ -87,9 +87,7 @@ pipeline {
             steps {
                 sh 'rm -rf /opt/tomcat9/webapps/vprofile-v2.war'
                 sh ' cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/'
-                sh '/opt/tomcat9/bin/shutdown.sh'
-                sleep 5
-                sh '/opt/tomcat9/bin/startup.sh'
+                
 
             }
         }
