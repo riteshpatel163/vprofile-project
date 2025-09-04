@@ -16,7 +16,7 @@ ENV PATH=/root/.local/bin:$PATH
 
 # Copy application files
 COPY app.py .
-COPY templates/ templates/
+COPY templates/ ./templates/
 
 EXPOSE 5000
 
