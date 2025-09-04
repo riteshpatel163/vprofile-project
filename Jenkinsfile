@@ -94,10 +94,7 @@ pipeline {
                     if (params.ENVIRONMENT == 'dev') {
                        
                         echo "Deploying to dev environment."
-                        sh ''' rm -rf /opt/tomcat9/webapps/vprofile-v2.war
-                            cp -rv target/vprofile-v2.war /opt/tomcat9/webapps/
-                            chown -R tomcat:tomcat-deploy /opt/tomcat9/webapps/
-                        '''
+                        
 
                 }else {
                     echo "Deployment skipped. Not in dev environment."
