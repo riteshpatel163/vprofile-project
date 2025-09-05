@@ -30,16 +30,18 @@ pipeline {
                 sh 'mvn checkstyle:checkstyle'
             }
             post {
-                always {
-                    publishCheckstyle pattern: 'target/checkstyle-result.xml'
-                    script {
-                        if (fileExists('target/checkstyle-result.xml')) {
-                            def checkstyleResult = readFile('target/checkstyle-result.xml')
-                            if (checkstyleResult.contains('error')) {
-                                echo "⚠️ Checkstyle found issues in ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-                            }
-                        }
-                    }
+                success {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'target/site',
+                        reportFiles: 'checkstyle.html',
+                        reportName: 'Checkstyle Report'
+                    ])
+                }
+                failure {
+                    echo "Checkstyle analysis failed."
                 }
             }
         }
