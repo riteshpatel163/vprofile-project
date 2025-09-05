@@ -6,6 +6,11 @@ pipeline {
         jdk 'jdk17'
     }
     
+    environment {
+        SONAR_SERVER = 'sonarserver'
+        SONAR_SCANNER = tool 'sonarscanner'
+    }
+    
     stages {
         stage('Build') {
             steps {
@@ -22,7 +27,6 @@ pipeline {
             steps {
                 sh 'mvn test jacoco:report'
             }
-            
         }
         
         stage('Code Analysis - Checkstyle') {
