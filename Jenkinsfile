@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool "${SONAR_SCANNER}"
-                    withSonarEnv("${SONAR_SERVER}") {
+                    withSonarQubeEnv("${SONAR_SERVER}") {
                         sh '''
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=vprofile \
