@@ -8,7 +8,7 @@ pipeline {
     
     environment {
         SONAR_SERVER = 'sonarserver'
-        SONAR_SCANNER = tool 'sonarscanner'
+        SONAR_SCANNER = 'sonarscanner'
     }
     
     stages {
@@ -27,6 +27,7 @@ pipeline {
             steps {
                 sh 'mvn test jacoco:report'
             }
+            
         }
         
         stage('Code Analysis - Checkstyle') {
@@ -45,13 +46,26 @@ pipeline {
         
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarserver') {
-                    sh '''mvn sonar:sonar \
-                        -Dsonar.projectKey=vprofile \
-                        -Dsonar.projectName=vprofile \
-                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-                        -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                script {
+                    def scannerHome = tool "${SONAR_SCANNER}"
+                    withSonarEnv("${SONAR_SERVER}") {
+                        sh '''
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=vprofile \
+                            -Dsonar.projectVersion=1.0 \
+                            -Dsonar.sources=src \
+                            -Dsonar.java.binaries=target/classes \
+                            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
+                            -Dsonar.coverage.jacoco.reportPaths=target/jacoco.exec \
+                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        '''
+                    }
                 }
+            }
+        }
+        stage('nexus artifact upload') {
+            steps {
+                nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'com.visualpathit', nexusUrl: 'http://rhel.local:8082', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: 'v2'
             }
         }
     }
