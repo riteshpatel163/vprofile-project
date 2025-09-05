@@ -25,11 +25,8 @@ pipeline {
             post {
                 always {
                     script {
-                        if (fileExists('target/surefire-reports/*.xml')) {
+                        if (fileExists('target/surefire-reports')) {
                             junit 'target/surefire-reports/*.xml'
-                        }
-                        if (fileExists('target/jacoco.exec')) {
-                            jacoco execPattern: 'target/jacoco.exec'
                         }
                     }
                 }
