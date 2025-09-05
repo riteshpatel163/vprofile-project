@@ -22,18 +22,7 @@ pipeline {
             steps {
                 sh 'mvn test jacoco:report'
             }
-            post {
-                always {
-                    script {
-                        def surefireReports = findFiles(glob: 'target/surefire-reports/*.xml')
-                        if (surefireReports.length > 0) {
-                            junit 'target/surefire-reports/*.xml'
-                        } else {
-                            echo 'No test reports found - tests may have failed or not run'
-                        }
-                    }
-                }
-            }
+            
         }
         
         stage('Code Analysis - Checkstyle') {
