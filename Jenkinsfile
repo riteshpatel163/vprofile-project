@@ -64,8 +64,15 @@ pipeline {
             }
         }
         stage('nexus artifact upload') {
+
             steps {
                 nexusArtifactUploader artifacts: [[artifactId: 'vprofile-new', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'V2', nexusUrl: 'http://rhel.local:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: '1.0'
+            }
+        }
+        
+        stage('Always Run Stage') {
+            steps {
+                echo "This stage runs regardless of previous stage success or failure"
             }
         }
     }
