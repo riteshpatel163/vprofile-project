@@ -31,14 +31,7 @@ pipeline {
             }
             post {
                 success {
-                    publishHTML(target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'target/site',
-                        reportFiles: 'checkstyle.html',
-                        reportName: 'Checkstyle Report'
-                    ])
+                    echo "Checkstyle analysis completed successfully."
                 }
                 failure {
                     echo "Checkstyle analysis failed."
