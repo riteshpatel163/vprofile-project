@@ -46,7 +46,7 @@ pipeline {
         stage('nexus artifact upload') {
 
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'vprofile-new', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'V2', nexusUrl: 'http://rhel.local:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: '1.0'
+                nexusArtifactUploader artifacts: [[artifactId: 'vprofile-new', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'V2', nexusUrl: 'http://192.168.184.128:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: '1.0'
             }
         }
         
