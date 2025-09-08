@@ -78,7 +78,7 @@ pipeline {
                 git branch: 'skelkube', url: env.GIT_URL
                 withCredentials([file(credentialsId: 'k8s', variable: 'KUBECONFIG')]) {
                     dir('kubedefs') {
-                        sh 'kubectl apply -f .'
+                        sh 'kubectl delete -f .'
                     }
                 }
             }
