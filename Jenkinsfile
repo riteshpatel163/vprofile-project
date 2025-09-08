@@ -54,7 +54,7 @@ pipeline {
         stage('SonarQube Analysises') {
             steps {
                 withSonarQubeEnv('sonarserver') {
-                    sh 'sonar-scanner \
+                    sh 'sonarscanner \
                         -Dsonar.projectKey=vprofile \
                         -Dsonar.projectVersion=1.0 \
                         -Dsonar.sources=src \
