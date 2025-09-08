@@ -73,12 +73,12 @@ pipeline {
 
 
         // Optional stage: Deployment to Kubernetes (commented out)
-        // stage('Deploy to K8s') {
-        //     steps {
-        //         git branch: 'skelkube', url: env.GIT_URL
-        //         sh 'kubectl apply -f kubedefs/'
-        //     }
-        // }
+        stage('Deploy to K8s') {
+            steps {
+                git branch: 'skelkube', url: env.GIT_URL
+                sh 'kubectl apply -f kubedefs/'
+            }
+        }
 
         stage('Always Run Stage') {
             steps {
