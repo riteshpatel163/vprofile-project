@@ -46,21 +46,7 @@ pipeline {
         stage('nexus artifact upload') {
 
             steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: "192.168.184.128:8081",
-                    groupId: 'QA2',
-                    version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                    repository: "patel-repo-release",
-                    credentialsId: "nexus",
-                    artifacts: [
-                        [artifactId: 'vprofile',
-                        classifier: '',
-                        file: 'target/vprofile-v2.war',
-                        type: 'war']
-                    ]
-                )
+                nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'V2', nexusUrl: 'http://192.168.184.128:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: '1.0'
             }
         }
         
@@ -84,42 +70,6 @@ pipeline {
             }
         }
         
-        
-        stage('Deploy to K8s') {
-            steps {
-                script {
-                    git branch: 'skelkube', url: env.GIT_URL
-                    sh 'kubectl apply -f k8s-manifests/'
-                }
-            }
-        }
-        
-        stage('Deploy to K8s') {
-            steps {
-                script {
-                    git branch: 'skelkube', url: env.GIT_URL
-                    sh 'kubectl apply -f .'
-                }
-            }
-        }
-        
-        stage('Deploy to K8s') {
-            steps {
-                script {
-                    git branch: 'skelkube', url: env.GIT_URL
-                    sh 'kubectl apply -f .'
-                }
-            }
-        }
-        
-        stage('Deploy to K8s') {
-            steps {
-                script {
-                    git branch: 'skelkube', url: env.GIT_URL
-                    sh 'kubectl apply -f .'
-                }
-            }
-        }
         
         stage('Always Run Stage') {
             steps {
