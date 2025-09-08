@@ -6,10 +6,10 @@ pipeline {
         jdk 'jdk17'
     }
     
-    environment {
-        SONAR_SERVER = 'sonarserver'
-        SONAR_SCANNER = 'sonarscanner'
-    }
+    //environment {
+        //SONAR_SERVER = 'sonarserver'
+        //SONAR_SCANNER = 'sonarscanner'
+    //}
     
     stages {
         stage('Build') {
@@ -52,11 +52,11 @@ pipeline {
         
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    def scannerHome = tool "${SONAR_SCANNER}"
+                //script {
+                    //def scannerHome = tool "${SONAR_SCANNER}"
                     withSonarQubeEnv("${SONAR_SERVER}") {
                         sh '''
-                            ${scannerHome}/bin/sonar-scanner \
+                            sonar-scanner \
                             -Dsonar.projectKey=vprofile \
                             -Dsonar.projectVersion=1.0 \
                             -Dsonar.sources=src \
@@ -66,7 +66,7 @@ pipeline {
                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                         '''
                     }
-                }
+                //}
             }
         }
         
