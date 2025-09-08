@@ -70,6 +70,14 @@ pipeline {
             }
         }
         
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    git branch: 'skelkube', url: env.GIT_URL
+                    sh 'kubectl apply -f kubedefs/'
+                }
+            }
+        }
         
         stage('Always Run Stage') {
             steps {
