@@ -75,8 +75,11 @@ pipeline {
         // Optional stage: Deployment to Kubernetes (commented out)
         stage('Deploy to K8s') {
             steps {
-                git branch: 'skelkube', url: env.GIT_URL
-                sh 'kubectl apply -f kubedefs/'
+                git branch: 'skelkube', url: https://github.com/riteshpatel163/vprofile-project.git
+                dir('kubedefs') {
+                    sh 'kubectl apply -f .'
+                }
+                
             }
         }
 
