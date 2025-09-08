@@ -1,16 +1,11 @@
 pipeline {
     agent any
-    
+
     tools {
         maven 'maven3'
         jdk 'jdk17'
     }
-    
-    //environment {
-        //SONAR_SERVER = 'sonarserver'
-        //SONAR_SCANNER = 'sonarscanner'
-    //}
-    
+
     stages {
         stage('Build') {
             steps {
@@ -22,14 +17,13 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Test') {
             steps {
                 sh 'mvn test jacoco:report'
             }
-            
         }
-        
+
         stage('Code Analysis - Checkstyle') {
             steps {
                 sh 'mvn checkstyle:checkstyle'
@@ -43,51 +37,50 @@ pipeline {
                 }
             }
         }
-        stage('nexus artifact upload') {
 
+        stage('Nexus Artifact Upload') {
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']], credentialsId: 'nexus', groupId: 'V2', nexusUrl: 'http://192.168.184.128:8081', nexusVersion: 'nexus2', protocol: 'http', repository: 'patel-repo-release', version: '1.0'
+                nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']],
+                                      credentialsId: 'nexus',
+                                      groupId: 'V2',
+                                      nexusUrl: 'http://192.168.184.128:8081',
+                                      nexusVersion: 'nexus2',
+                                      protocol: 'http',
+                                      repository: 'patel-repo-release',
+                                      version: '1.0'
             }
         }
-        
+
         stage('SonarQube Analysis') {
             steps {
-                //script {
-                    //def scannerHome = tool "${SONAR_SCANNER}"
-                    withSonarQubeEnv("${SONAR_SERVER}") {
-                        sh '''
-                            sonar-scanner \
-                            -Dsonar.projectKey=vprofile \
-                            -Dsonar.projectVersion=1.0 \
-                            -Dsonar.sources=src \
-                            -Dsonar.java.binaries=target/classes \
-                            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
-                            -Dsonar.coverage.jacoco.reportPaths=target/jacoco.exec \
-                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                        '''
-                    }
-                //}
+                withSonarQubeEnv('sonarserver') {
+                    sh 'sonar-scanner \
+                        -Dsonar.projectKey=vprofile \
+                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.sources=src \
+                        -Dsonar.java.binaries=target/classes \
+                        -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
+                        -Dsonar.coverage.jacoco.reportPaths=target/jacoco.exec \
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                }
             }
         }
-        
-        //stage('Deploy to K8s') {
-        //    steps {
-        //        script {
-        //            git branch: 'skelkube', url: env.GIT_URL
-        //            sh 'kubectl apply -f kubedefs/'
-        //        }
-        //    }
-        //}
-            }
-        }
-        
+
+        // Optional stage: Deployment to Kubernetes (commented out)
+        // stage('Deploy to K8s') {
+        //     steps {
+        //         git branch: 'skelkube', url: env.GIT_URL
+        //         sh 'kubectl apply -f kubedefs/'
+        //     }
+        // }
+
         stage('Always Run Stage') {
             steps {
                 echo "This stage runs regardless of previous stage success or failure"
             }
         }
     }
-    
+
     post {
         success {
             echo "✅ Pipeline succeeded: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
