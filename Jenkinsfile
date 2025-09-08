@@ -51,20 +51,26 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysises') {
+        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarserver') {
-                    sh 'sonarscanner \
-                        -Dsonar.projectKey=vprofile \
-                        -Dsonar.projectVersion=1.0 \
-                        -Dsonar.sources=src \
-                        -Dsonar.java.binaries=target/classes \
-                        -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
-                        -Dsonar.coverage.jacoco.reportPaths=target/jacoco.exec \
-                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                script {
+                    def scannerHome = tool 'sonarscanner'   // Ensure this name matches the Global Tool Configuration
+                    withSonarQubeEnv('sonarserver') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=vprofile \
+                            -Dsonar.projectVersion=1.0 \
+                            -Dsonar.sources=src \
+                            -Dsonar.java.binaries=target/classes \
+                            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
+                            -Dsonar.coverage.jacoco.reportPaths=target/jacoco.exec \
+                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        """
+                    }
                 }
             }
         }
+
 
         // Optional stage: Deployment to Kubernetes (commented out)
         // stage('Deploy to K8s') {
