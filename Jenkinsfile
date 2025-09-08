@@ -76,10 +76,11 @@ pipeline {
         stage('Deploy to K8s') {
             steps {
                 git branch: 'skelkube', url: env.GIT_URL
-                dir('kubedefs') {
-                    sh 'kubectl apply -f .'
+                withCredentials([file(credentialsId: 'k8s', variable: 'KUBECONFIG')]) {
+                    dir('kubedefs') {
+                        sh 'kubectl apply -f .'
+                    }
                 }
-                
             }
         }
 
