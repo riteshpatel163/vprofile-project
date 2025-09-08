@@ -71,6 +71,42 @@ pipeline {
         }
         
         
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    git branch: 'skelkube', url: env.GIT_URL
+                    sh 'kubectl apply -f k8s-manifests/'
+                }
+            }
+        }
+        
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    git branch: 'skelkube', url: env.GIT_URL
+                    sh 'kubectl apply -f .'
+                }
+            }
+        }
+        
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    git branch: 'skelkube', url: env.GIT_URL
+                    sh 'kubectl apply -f .'
+                }
+            }
+        }
+        
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    git branch: 'skelkube', url: env.GIT_URL
+                    sh 'kubectl apply -f .'
+                }
+            }
+        }
+        
         stage('Always Run Stage') {
             steps {
                 echo "This stage runs regardless of previous stage success or failure"
