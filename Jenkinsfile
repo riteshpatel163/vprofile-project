@@ -43,7 +43,7 @@ pipeline {
                 nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']],
                                       credentialsId: 'nexus',
                                       groupId: 'V3',
-                                      nexusUrl: 'http://192.168.184.128:8081',
+                                      nexusUrl: '192.168.184.128:8081',
                                       nexusVersion: 'nexus3',
                                       protocol: 'http',
                                       repository: 'patel-repo-release',
