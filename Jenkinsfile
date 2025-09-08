@@ -42,12 +42,12 @@ pipeline {
             steps {
                 nexusArtifactUploader artifacts: [[artifactId: 'vprofile', classifier: '', file: 'target/vprofile-v2.war', type: 'war']],
                                       credentialsId: 'nexus',
-                                      groupId: 'V2',
+                                      groupId: 'V3',
                                       nexusUrl: 'http://192.168.184.128:8081',
-                                      nexusVersion: 'nexus2',
+                                      nexusVersion: 'nexus3',
                                       protocol: 'http',
                                       repository: 'patel-repo-release',
-                                      version: '1.0'
+                                      version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
             }
         }
 
