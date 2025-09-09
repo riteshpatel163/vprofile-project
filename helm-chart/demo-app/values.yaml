@@ -1,0 +1,30 @@
+app:
+  name: demo-app
+  image: demo-python-app:latest
+  replicas: 2
+  port: 5000
+
+mysql:
+  name: mysql
+  image: mysql:8.0
+  port: 3306
+  database: demo_db
+
+secret:
+  name: mysql-secret
+  rootPassword: cGFzc3dvcmQ=  # base64: password
+  user: cm9vdA==              # base64: root
+  database: ZGVtb19kYg==      # base64: demo_db
+
+storage:
+  className: demo-storage
+  size: 1Gi
+  hostPath: /opt/nfs-storage
+
+service:
+  app:
+    type: LoadBalancer
+    port: 80
+  mysql:
+    type: ClusterIP
+    port: 3306
